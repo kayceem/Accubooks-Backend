@@ -8,7 +8,8 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
     contact_number = db.Column(db.BigInteger, unique=True, nullable=False)
-
+    is_active = db.Column(db.Boolean, default=True)
+    
 class Product(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=False)
     name = db.Column(db.String(255), nullable=False)

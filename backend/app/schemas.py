@@ -8,6 +8,11 @@ class User(BaseModel):
     email: str
     contact_number:int
     password:str
+    
+class UserLogin(BaseModel):
+    username:str
+    password:str
+    
 
 class Product(BaseModel):
     product_name:str
