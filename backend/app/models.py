@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     
 class Product(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False, unique=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
 
 class Purchase(db.Model):

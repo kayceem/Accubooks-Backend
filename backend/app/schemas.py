@@ -15,20 +15,19 @@ class UserLogin(BaseModel):
     
 
 class Product(BaseModel):
-    product_name:str
-    id:int
+    name:str
     quantity:Optional[int]
 
-class PurchaseCreate(BaseModel):
+class CreateTransaction(BaseModel):
     product_id:int
     quantity:int
     date:date
     price:int
+    
+class PurchaseCreate(CreateTransaction):
+    pass
 
-class Sales(BaseModel):
-    product_id:int
-    quantity:int
-    date:date
-    price:int
+class SalesCreate(CreateTransaction):
+    pass
 
     

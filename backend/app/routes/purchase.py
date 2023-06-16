@@ -19,19 +19,19 @@ class PurchaseView(MethodView):
         db = get_db()
         form_data = request.form.to_dict()
         try:
-            product = schemas.PurchaseCreate(**form_data)
+            purchase = schemas.PurchaseCreate(**form_data)
         except schemas.ValidationError:
             return ({"error": "Invalid information"}), 400
         new_purchase = models.Purchase(
-            product_id = product.product_id,
-            quantity = product.quantity,
-            date = product.date,
-            price = product.price,
+            product_id = purchase.product_id,
+            quantity = purchase.quantity,
+            date = purchase.date,
+            price = purchase.price,
         )
         db.session.add(new_purchase)
-        new_product = db.session.query(models.Product).filter(models.Product.id==product.product_id).first()
+        new_product = db.session.query(models.Product).filter(models.Product.id==purchase.product_id).first()
+        print(new_product.quantity)
         if new_product:
-            new_product.quantity+=product.quantity
-            db.session.refresh(new_product)
+            new_product.quantity+=purchase.quantity
         db.session.commit()
         return redirect(url_for('purchase'))
