@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <h2>Latest Purchases</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Purchase ID</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in latest_purchases %}
+                <tr>
+                    <td>{{ purchase.id }}</td>
+                    <td>{{ purchase.product_id }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.price }}</td>
+                    <td>{{ purchase.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
