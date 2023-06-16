@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th>Purchase ID</th>
-                <th>Product ID</th>
+                <th>Product</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Date</th>
@@ -21,7 +21,7 @@
             {% for purchase in latest_purchases %}
                 <tr>
                     <td>{{ purchase.id }}</td>
-                    <td>{{ purchase.product_id }}</td>
+                    <td>{{ purchase.product.name }}</td>
                     <td>{{ purchase.quantity }}</td>
                     <td>{{ purchase.price }}</td>
                     <td>{{ purchase.date }}</td>
@@ -35,7 +35,7 @@
         <thead>
             <tr>
                 <th>Sales ID</th>
-                <th>Product ID</th>
+                <th>Product</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Date</th>
@@ -45,7 +45,7 @@
             {% for sale in latest_sales %}
                 <tr>
                     <td>{{ sale.id }}</td>
-                    <td>{{ sale.product_id }}</td>
+                    <td>{{ sale.product.name }}</td>
                     <td>{{ sale.quantity }}</td>
                     <td>{{ sale.price }}</td>
                     <td>{{ sale.date }}</td>

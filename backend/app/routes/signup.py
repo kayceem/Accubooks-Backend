@@ -24,12 +24,11 @@ class SignupView(MethodView):
         if user:
             return ({"error": "User already exists"}), 400
         new_user = models.User(
-        username=user_info.username,
-        email=user_info.email,
-        password=bcrypt.generate_password_hash(user_info.password).decode('utf-8'),
-        contact_number=user_info.contact_number,
-        # active=True   # Explicitly setting this as True to ensure it's active
-        )
+                        username=user_info.username,
+                        email=user_info.email,
+                        password=bcrypt.generate_password_hash(user_info.password).decode('utf-8'),
+                        contact_number=user_info.contact_number,
+                    )
         db.session.add(new_user)
         db.session.commit()
 

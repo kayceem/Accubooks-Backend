@@ -24,7 +24,7 @@ def create_app():
     # app.add_url_rule('/search', view_func=search.SearchView.as_view('search'))
     # app.add_url_rule('/product', view_func=product.ProductView.as_view('product'))
     # app.add_url_rule('/account', view_func=account.AccountView.as_view('account'))
-    # app.add_url_rule('/purchase', view_func=purchase.PurchaseView.as_view('purchase'))
+    app.add_url_rule('/purchase', view_func=purchase.PurchaseView.as_view('purchase'))
     # app.add_url_rule('/sales', view_func=sales.SalesView.as_view('sales'))
     # app.add_url_rule('/profile', view_func=profile.ProfileView.as_view('profile'))
     app.add_url_rule('/logout', view_func=logout.LogoutView.as_view('logout'))

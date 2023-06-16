@@ -19,7 +19,7 @@ class Product(BaseModel):
     id:int
     quantity:Optional[int]
 
-class Purchase(BaseModel):
+class PurchaseCreate(BaseModel):
     product_id:int
     quantity:int
     date:date
