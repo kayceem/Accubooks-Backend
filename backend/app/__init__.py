@@ -31,7 +31,7 @@ def create_router(app):
     app.add_url_rule('/dashboard', view_func=dashboard.DashboardView.as_view('dashboard'))
     app.add_url_rule('/products', view_func=products.ProductsView.as_view('products'))
     app.add_url_rule('/product/<int:product_id>', view_func=product.ProductView.as_view('product'))
-    # app.add_url_rule('/account', view_func=account.AccountView.as_view('account'))
+    app.add_url_rule('/account', view_func=account.AccountView.as_view('account'))
     app.add_url_rule('/purchase', view_func=purchase.PurchaseView.as_view('purchase'))
     app.add_url_rule('/sales', view_func=sales.SalesView.as_view('sales'))
     # app.add_url_rule('/profile', view_func=profile.ProfileView.as_view('profile'))
