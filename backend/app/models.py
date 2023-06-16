@@ -21,7 +21,6 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
-
     product = relationship("Product")
 
 class Sales(db.Model):
@@ -30,6 +29,5 @@ class Sales(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
-
     product = relationship("Product")
     
