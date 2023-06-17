@@ -26,6 +26,12 @@ def create_user_loader():
 
 def create_router(app):
     from .routes import login, signup, dashboard, products, product, account, purchase, sales, profile, logout
+    from flask import redirect, url_for
+    
+    @app.route('/')
+    def index():
+        return redirect(url_for('dashboard'))
+    
     app.add_url_rule('/login', view_func=login.LoginView.as_view('login'))
     app.add_url_rule('/signup', view_func=signup.SignupView.as_view('signup'))
     app.add_url_rule('/dashboard', view_func=dashboard.DashboardView.as_view('dashboard'))
