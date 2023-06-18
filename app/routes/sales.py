@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask import request, render_template, redirect, url_for
 from ..database import get_db
 from .. import models
@@ -11,12 +11,14 @@ class SalesView(MethodView):
     decorators = [login_required]
     def get(self):
         db = get_db()
-        sales = db.session.query(models.Sales).order_by(models.Sales.date.desc(), models.Sales.id.desc()).all()
-        products = db.session.query(models.Product).order_by(models.Product.name).all()
+        user = db.session.query(models.User).filter(models.User.id==current_user.id).first()
+        sales = db.session.query(models.Sales).filter(models.Sales.user_id==user.id).order_by(models.Sales.date.desc(), models.Sales.id.desc()).all()
+        products = db.session.query(models.Product).filter(models.Product.user_id==user.id).order_by(models.Product.name).all()
         return render_template('sales.html',  sales=sales, products=products)
 
     def post(self):
         db = get_db()
+        user = db.session.query(models.User).filter(models.User.id==current_user.id).first()
         form_data = request.form.to_dict()
         action = form_data.get('action')
         if action == 'update':
@@ -27,7 +29,7 @@ class SalesView(MethodView):
             sale = schemas.SalesCreate(**form_data)
         except schemas.ValidationError:
             return ({"error": "Invalid information"}), 400
-        new_product = db.session.query(models.Product).filter(models.Product.id==sale.product_id).first()
+        new_product = db.session.query(models.Product).filter(models.Product.id==sale.product_id, models.Product.user_id==user.id).first()
 
         if not new_product or sale.quantity>new_product.quantity:
             return ({"error": "Not enough quantity"}), 400
@@ -37,6 +39,7 @@ class SalesView(MethodView):
             quantity = sale.quantity,
             date = sale.date,
             price = sale.price,
+            user_id=user.id
         )
         db.session.add(new_sale)
         new_product.quantity-=sale.quantity
@@ -45,11 +48,12 @@ class SalesView(MethodView):
 
     def update(self, form_data):
         db = get_db()
+        user = db.session.query(models.User).filter(models.User.id==current_user.id).first()
         try:
             sales_update = schemas.SalesUpdate(**form_data)
         except schemas.ValidationError:
             return ({"error": "Invalid information for updating"}), 400
-        sale = db.session.query(models.Sales).filter(models.Sales.id==sales_update.sales_id).first()
+        sale = db.session.query(models.Sales).filter(models.Sales.user_id==user.id, models.Sales.id==sales_update.sales_id).first()
         if sale is None:
             return {"error": "Sales not found"}, 404
         sale.product_id = sales_update.product_id
@@ -61,8 +65,9 @@ class SalesView(MethodView):
         
     def delete(self, form_data):
         db = get_db()
+        user = db.session.query(models.User).filter(models.User.id==current_user.id).first()
         sales_id = form_data.get('sales_id')
-        sale = db.session.query(models.Sales).filter(models.Sales.id==sales_id).first()
+        sale = db.session.query(models.Sales).filter(models.Sales.user_id==user.id, models.Sales.id==sales_id).first()
         if sale is None:
             return {"error": "Sales not found"}, 404
         db.session.delete(sale)

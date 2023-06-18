@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask import session, render_template
 from ..database import get_db
 from .. import models
@@ -18,8 +18,9 @@ class AccountView(MethodView):
         month=int(month)
         year=int(year)
         db = get_db()
-        monthly_purchases = db.session.query(models.Purchase).filter(extract('month', models.Purchase.date) == month, extract('year', models.Purchase.date) == year).order_by(models.Purchase.date.desc(), models.Purchase.id.desc()).all()
-        monthly_sales = db.session.query(models.Sales).filter(extract('month', models.Sales.date) == month, extract('year', models.Sales.date) == year).order_by(models.Sales.date.desc(), models.Sales.id.desc()).all()
+        user = db.session.query(models.User).filter(models.User.id==current_user.id).first()
+        monthly_purchases = db.session.query(models.Purchase).filter(models.Purchase.user_id==user.id, extract('month', models.Purchase.date) == month, extract('year', models.Purchase.date) == year).order_by(models.Purchase.date.desc(), models.Purchase.id.desc()).all()
+        monthly_sales = db.session.query(models.Sales).filter(models.Sales.user_id==user.id, extract('month', models.Sales.date) == month, extract('year', models.Sales.date) == year).order_by(models.Sales.date.desc(), models.Sales.id.desc()).all()
         total_purchase_cost = sum([purchase.price * purchase.quantity for purchase in monthly_purchases])
         total_sales_income = sum([sale.price * sale.quantity for sale in monthly_sales])
         session['month'] = month 

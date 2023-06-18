@@ -36,6 +36,7 @@ class Purchase(db.Model):
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
     product = db.relationship("Product", backref="purchases")  # Product relationship
+    user_id = db.Column(db.BigInteger, ForeignKey('user.id'), nullable=False)  # User foreign key
 
 class Sales(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
@@ -44,3 +45,4 @@ class Sales(db.Model):
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
     product = db.relationship("Product", backref="sales")  # Product relationship
+    user_id = db.Column(db.BigInteger, ForeignKey('user.id'), nullable=False)  # User foreign key

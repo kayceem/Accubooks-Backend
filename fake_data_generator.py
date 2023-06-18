@@ -14,6 +14,7 @@ def create_fake_products(n=20):
         product = Product(
             name=fake.word(),
             quantity=fake.random_int(min=0, max=500),
+            user_id=4
         )
         products.append(product)
     return products
@@ -33,14 +34,18 @@ def create_fake_purchases_and_sales(products, n=50):
             quantity=quantity,
             price=price,
             date=date,
-            product=product
+            product=product,
+            user_id=4
+
         )
         sale = Sales(
             product_id=pid,
             quantity=quantity-pid if quantity>pid else pid-quantity,
             price=price+pid*2,
             date=date,
-            product=product
+            product=product,
+            user_id=4
+
         )
 
         purchases.append(purchase)
