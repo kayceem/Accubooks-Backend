@@ -11,6 +11,9 @@ class User(UserMixin, db.Model):
     contact_number = db.Column(db.BigInteger, unique=True, nullable=False)
     active = db.Column(db.Boolean, default=True)
     
+    # Relationship
+    products = db.relationship("Product", backref="user", lazy='dynamic')
+
     @property
     def is_active(self):
         return self.active
@@ -23,6 +26,8 @@ class Product(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
+    user_id = db.Column(db.BigInteger, ForeignKey('user.id'), nullable=False)  # User foreign key
+
 
 class Purchase(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
@@ -30,7 +35,7 @@ class Purchase(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    product = relationship("Product")
+    product = db.relationship("Product", backref="purchases")  # Product relationship
 
 class Sales(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
@@ -38,5 +43,4 @@ class Sales(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    product = relationship("Product")
-    
+    product = db.relationship("Product", backref="sales")  # Product relationship
