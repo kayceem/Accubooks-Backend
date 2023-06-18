@@ -18,6 +18,11 @@ class SalesView(MethodView):
     def post(self):
         db = get_db()
         form_data = request.form.to_dict()
+        action = form_data.get('action')
+        if action == 'update':
+            return(self.update(form_data))
+        if action == 'delete':
+            return(self.delete(form_data))
         try:
             sale = schemas.SalesCreate(**form_data)
         except schemas.ValidationError:
@@ -35,5 +40,31 @@ class SalesView(MethodView):
         )
         db.session.add(new_sale)
         new_product.quantity-=sale.quantity
+        db.session.commit()
+        return redirect(url_for('sales'))
+
+    def update(self, form_data):
+        db = get_db()
+        try:
+            sales_update = schemas.SalesUpdate(**form_data)
+        except schemas.ValidationError:
+            return ({"error": "Invalid information for updating"}), 400
+        sale = db.session.query(models.Sales).filter(models.Sales.id==sales_update.sales_id).first()
+        if sale is None:
+            return {"error": "Sales not found"}, 404
+        sale.product_id = sales_update.product_id
+        sale.quantity = sales_update.quantity
+        sale.date = sales_update.date
+        sale.price = sales_update.price
+        db.session.commit()
+        return redirect(url_for('sales'))
+        
+    def delete(self, form_data):
+        db = get_db()
+        sales_id = form_data.get('sales_id')
+        sale = db.session.query(models.Sales).filter(models.Sales.id==sales_id).first()
+        if sale is None:
+            return {"error": "Sales not found"}, 404
+        db.session.delete(sale)
         db.session.commit()
         return redirect(url_for('sales'))

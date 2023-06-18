@@ -30,4 +30,10 @@ class PurchaseCreate(CreateTransaction):
 class SalesCreate(CreateTransaction):
     pass
 
+class SalesUpdate(CreateTransaction):
+    sales_id:int
+    
+class PurchaseUpdate(CreateTransaction):
+    purchase_id:int
+
     
