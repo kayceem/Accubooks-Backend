@@ -8,7 +8,6 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
-    contact_number = db.Column(db.BigInteger, unique=True, nullable=False)
     active = db.Column(db.Boolean, default=True)
     
     # Relationship

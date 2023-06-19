@@ -6,7 +6,6 @@ class User(BaseModel):
     name:Optional[str]
     username:str
     email: str
-    contact_number:int
     password:str
     
 class UserLogin(BaseModel):

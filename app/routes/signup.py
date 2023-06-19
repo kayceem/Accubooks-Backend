@@ -27,7 +27,6 @@ class SignupView(MethodView):
                         username=user_info.username,
                         email=user_info.email,
                         password=bcrypt.generate_password_hash(user_info.password).decode('utf-8'),
-                        contact_number=user_info.contact_number,
                     )
         db.session.add(new_user)
         db.session.commit()
