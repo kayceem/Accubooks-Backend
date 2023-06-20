@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container .select2-selection--single {
+            height: 38px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 36px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Latest Purchases</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Purchase ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in latest_purchases %}
+                <tr>
+                    <td>{{ purchase.id }}</td>
+                    <td>{{ purchase.product.name }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.price }}</td>
+                    <td>{{ purchase.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Latest Sales</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sales ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in latest_sales %}
+                <tr>
+                    <td>{{ sale.id }}</td>
+                    <td>{{ sale.product.name }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.price }}</td>
+                    <td>{{ sale.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+
+</body>
+</html>
